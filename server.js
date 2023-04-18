@@ -21,6 +21,15 @@ mongoose.connect(uri, options);
 // Obtener la instancia de la conexión
 const db = mongoose.connection;
 
+
+// Cors
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
+
 // Manejar eventos de la conexión
 db.on('error', console.error.bind(console, 'Error de conexión:'));
 db.once('open', function() {

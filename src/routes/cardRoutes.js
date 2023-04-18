@@ -5,10 +5,10 @@ const router = express.Router();
 const { createCard, getCards, updateCard, deleteCard } = require('../controllers/cardControllers');
 
 // CREATE
-router.post('/', createCard);
+router.post('/newCard', createCard);
 
 // READ
-router.get('/', getCards);
+router.get('/getCards', getCards);
 
 // UPDATE
 router.put('/:cardId', updateCard);
