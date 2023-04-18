@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
-const path = require('path');
-const appDir = path.join(__dirname, 'public');
+
+// Importamos las rutas de las Tasks y las Cards
+const cardRoutes = require('../FullStackP2/src/routes/cardRoutes');
+const taskRoutes = require('../FullStackP2/src/routes/taskRoutes');
 
 // Cadena de conexión
 const uri = 'mongodb+srv://admin:1234@cluster0.amvowh2.mongodb.net/test';
@@ -26,10 +28,11 @@ db.once('open', function() {
   // hacer algo con la base de datos
 });
 
-app.get('/', function(req, res) {
-  res.sendFile('index.html', { root: appDir });
-});
-
+// Definimos el pueto predeterminado y lo que se ejecutara cuando se inicie el servidor.
 app.listen(3000, function() {
   console.log('Servidor iniciado en http://localhost:3000');
 });
+
+// Middelwares
+app.use('/api/cards', cardRoutes);
+app.use('/api/tasks', taskRoutes);

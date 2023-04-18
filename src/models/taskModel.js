@@ -2,22 +2,54 @@ const mongoose = require('mongoose');
 
 // ! Schema Tablones
 
-let schemaTablones = new mongoose.Schema({
+// Declaramos el patrón de datos que llevara cada elemento Tarea
+// y sus tipados correspondientes.
+
+let schemaTasks = new mongoose.Schema({
     
-    titulo: {
+    taskId: {
+        type: String,
+        required: true,
+        default: Math.random()
+    },
+
+    idcard: {
+        type: String,
+        required: true
+    },
+    
+    nombre: {
         type: String,
         required: true
     },
 
     descripcion: {
         type: String,
-        minlenght: [5, 'No se cumple la longitud mínima de la descripción'],
-        maxlenght: [150, 'Has superado el máximo permitido de caracteres (150)'],
         required: true
     },
 
-    autor: {
+    color: {
         type: String,
+        required: true
+    },
+
+    dia: {
+        type: String,
+        required: true
+    },
+
+    completada: {
+        type: Boolean,
+        required: true
+    },
+
+    horaI: {
+        type: Number,
+        required: true
+    },
+
+    horaF: {
+        type: Number,
         required: true
     }
 
@@ -25,8 +57,8 @@ let schemaTablones = new mongoose.Schema({
 
 // Creamos el modelo
 
-const modeloTablones = new mongoose.model('modeloTablones', schemaTablones);
+const modeloTasks = new mongoose.model('modeloTasks', schemaTasks);
 
 // Exportamos el modelo
 
-module.exports = modeloTablones;
+module.exports = modeloTasks;
