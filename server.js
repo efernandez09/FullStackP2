@@ -45,3 +45,4 @@ app.listen(3000, function() {
 // Middelwares
 app.use('/api/cards', cardRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use(express.static('public'));
