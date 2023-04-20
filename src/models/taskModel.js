@@ -57,8 +57,8 @@ let schemaTasks = new mongoose.Schema({
 
 // Creamos el modelo
 
-const modeloTasks = new mongoose.model('modeloTasks', schemaTasks);
+const taskModel = new mongoose.model('taskModel', schemaTasks);
 
 // Exportamos el modelo
 
-module.exports = modeloTasks;
+module.exports = taskModel;

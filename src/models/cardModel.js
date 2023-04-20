@@ -46,8 +46,8 @@ let schemaCards = new mongoose.Schema({
 
 // Creamos el modelo
 
-const modeloCards = new mongoose.model('modeloCards', schemaCards);
+const cardModel = new mongoose.model('cardModel', schemaCards);
 
 // Exportamos el modelo
 
-module.exports = modeloCards;
+module.exports = cardModel;
