@@ -1,22 +1,24 @@
-const Card = require('../models/cardModel');
-const Task = require('../models/taskModel');
+const Cards = require('../models/cards');
+const Tasks = require('../models/tasks');
 
 module.exports = {
     Query: {
         //Queries de las Cards
-        async Card(_, {ID}){
-            return await Card.findById(ID)
+        async Cards(_, {ID}){
+            return await Cards.findById(ID)
         },
         async getCards(){
-            return await Card.find().sort({ year: -1}) //-1 the most recent ,1 the oldest
-        } ,
+            return await Cards.find() //-1 the most recent ,1 the oldest
+        },
+
         //Queries de las Tasks
         async Task(_, {ID}){
             return await Task.findById(ID)
         },
-        async getTasks(){
-            return await Task.find().sort({ dia: -1}) //-1 the most recent ,1 the oldest
-        } 
+        async getTasks(_, {cardId}){
+            return await Task.find({_id : cardId}).sort({ dia: -1}) //-1 the most recent ,1 the oldest
+        }     
+       
     },
 
     Mutation: {
@@ -30,34 +32,34 @@ module.exports = {
          * @param {*} param1 
          * @returns 
          */
-        async createCard(_, {CardInput: {num_semana, nombre, color, descripcion, year, vacaciones}}){
+        async createCards(_, {CardsInput: {semana, nombre, color, descripcion, year, vacaciones}}){
             //primer crea l'objecte
-            const createdCard = new Card({
-                num_semana: num_semana, 
+            const createdCards = new Cards({
+                semana: semana, 
                 nombre: nombre, 
-                color:color, 
+                color: color, 
                 descripcion:descripcion, 
                 year:year, 
                 vacaciones:vacaciones
             });
 
-            const res = await createdCard.save(); //MongoDb Saving
+            const res = await createdCards.save(); //MongoDb Saving
             console.log(res._doc);
-            //retorna el resultat el id el farem servir per identificar la card al html
+            //retorna el resultat
             return {
                 id: res.id, 
                 ...res._doc
             }
         },
 
-        async deleteCard(_, {ID}){
-            const deleteOk = (await Card.deleteOne({_id: ID})).deleteCount;            
-            return deleteOk; //1 if somethins was delete, 0 if nothing was deleted
+        async deleteCards(_, {ID}){
+            const wasDeleted = (await Cards.deleteOne({_id: ID})).deleteCount;            
+            return wasDeleted; //1 if somethins was delete, 0 if nothing was deleted
         },
 
-        async editCard(_, {ID, CardInput: { nombre, color, descripcion,  vacaciones}}){
-            const updateOk = (await Card.updateOne({_id: ID}, { nombre:nombre, color:color, descripcion:descripcion, vacaciones:vacaciones})).modifiedCount;
-            return updateOk; //1 was edited, 0 nothing edited
+        async editCards(_, {ID, CardsInput: {name, description}}){
+            const wasEdited = (await Cards.updateOne({_id: ID}, { name: name, description: description})).modifiedCount;
+            return wasEdited; //1 was edited, 0 nothing edited
         },
       
         /**

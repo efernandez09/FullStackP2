@@ -2,7 +2,6 @@ const { gql } = require('apollo-server-express');
 
 module.exports = gql`
 type Task {
-    taskId: ID!,
     idcard: String!,
     nombre: String!,
     descripcion: String!,
@@ -13,30 +12,27 @@ type Task {
     horaF: Int
   }
 
-type Card {
-    cardId: ID!,
-    num_semana: String!,
-    nombre: String!,
-    color: String!,
-    descripcion: String!,
-    year: String!,
+type Cards{
+    semana: Int!
+    nombre: String!
+    color: String!
+    descripcion: String!
+    year: Int
     vacaciones: Boolean
-  }
+}
 
-input CardInput {
-    cardId: ID!,
-    num_semana: String!,
-    nombre: String!,
-    color: String!,
-    descripcion: String!,
-    year: String!,
+input CardsInput {
+    semana: Int!
+    nombre: String!
+    color: String!
+    descripcion: String!
+    year: Int
     vacaciones: Boolean
-} 
+}
 
 
 input TaskInput {
-    taskId: ID!,
-    idcard:  ID!,
+    idcard:  String!,
     nombre: String!,
     descripcion: String!,
     color: String!,
@@ -46,20 +42,18 @@ input TaskInput {
     horaF: Int
 }
 
-type Query{
+type Query{    
     Task(ID: ID!): Task!
     getTasks(idcard: ID!): [Task]
-
-    Card(ID: ID!): Card!
-    getCardWeek(num_semana: String!): Card!
-    getCardsYear(year: String!): [Card]
+    Cards(ID: ID!): Cards!
+    getCards: [Cards]
 }
 
 type Mutation {
-    createCard(cardInput: CardInput): Card!
-    deleteCard(ID: ID!): Boolean
-    editCard(ID: ID!, cardInput: CardInput): Boolean
-    
+    createCards(CardsInput: CardsInput): Cards!
+    deleteCards(ID: ID!): Boolean
+    editCards(ID: ID!, CardsInput: CardsInput): Boolean
+  
     createTask(taskInput: TaskInput): Task!
     deleteTask(ID: ID!): Boolean
     deleteTasksOfTheWeek(cardId: ID!): Int

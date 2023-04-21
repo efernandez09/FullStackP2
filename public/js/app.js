@@ -6,20 +6,42 @@
 const GET_CARDS_URL = "http://localhost:3000/api/cards/getCards"
 const POST_CARDS_URL = "http://localhost:3000/api/cards/newCard"
 
+const GRAPHQL_URL = "http://localhost:3000/graphql"
+
 // Paleta de colores
 const DEFAULT_COLOR = "#edede9"; 
 const DEFAULT_TASK_COLOR = "#eab676"
 const WHT_COLOR = "#FAFAFA";
 
 
-  // incorpora los datos, en principio de un fichero json, más tarde cambiará a backend
+
+  //  incorpora los datos, en principio de un fichero json, más tarde cambiará a backend
   function fetchWeeks(){
-    fetch(GET_CARDS_URL)
-    .then((response) => response.json())
-    .then((data) => {
+    fetch(GRAPHQL_URL, {
+      method: 'POST',
+      headers: {
+          "Content-Type": "application/json"
+      },
+  
+      body: JSON.stringify({
+          query: `{
+            getCards{
+                semana
+                nombre
+                color
+                descripcion
+                year
+                vacaciones
+              }
+          }`
+      })
+  })
+    .then((res) => res.json())
+    .then((res) => {
       const cardList = document.getElementById('weekContainer');
       cardList.innerHTML = '';
-      data.forEach((card) => {
+     // console.log(res);
+      res.data.getCards.map(card => {
         const cardElement = document.createElement('div');
         
         cardElement.innerHTML =     
@@ -44,33 +66,6 @@ const WHT_COLOR = "#FAFAFA";
     });
   }
 
-  // Test data
-
-  const testData = [
-    {cardId : "201313", num_semana : 13, nombre : "Tarjeta 1", color : "#E0CFFC", descripcion : "Semana mock 1", year : 2023, vacaciones : "S"},
-    {cardId : "201315", num_semana : 15, nombre : "Tarjeta 2", color : "#F7D6E6", descripcion : "Semana mock 2", year : 2023, vacaciones : "N"},
-    {cardId : "201318", num_semana : 18, nombre : "Tarjeta 3", color : "#FFF3CD", descripcion : "Semana mock 3", year : 2023, vacaciones : "N"}
-  ];
-
-
-  // Funcion para rellernar la base de datos de las tarjetas
-  function fillData(card) {
-    fetch(POST_CARDS_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(card),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Tarjeta creada:', data);
-      })
-      .catch((error) => {
-        console.error('Error al crear tarjeta:', error);
-      });
-    
-  }
 
   /**
    * pone el título en el navbar
@@ -102,7 +97,6 @@ const WHT_COLOR = "#FAFAFA";
       modalAddTask();
       modalDeleteTask();
       fetchWeeks();
-      fillData(testData);
   }
 
 
