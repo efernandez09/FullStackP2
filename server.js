@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const express = require('express');
 
-
 // Importamos apollo server (Importamos los typeDefs y los resolvers)
 const { ApolloServer } = require('apollo-server-express');
 const typeDefs = require('../FullStackP2/src/graphql/typeDefs');

@@ -2,8 +2,6 @@
  * JS funciones generales de control del FrontEnd
  */
 
-// const {Query} = require('../../src/graphql/resolvers')
-
 // URL's de llamadas al Backend
 const GET_CARDS_URL = "http://localhost:3000/api/cards/getCards"
 const POST_CARDS_URL = "http://localhost:3000/api/cards/newCard"
@@ -59,6 +57,7 @@ const WHT_COLOR = "#FAFAFA";
                     <button class="btn btn-danger" onclick="deleteCardById('${card.cardId}')"> Eliminar </button>
                 </div>
             </div>`;
+
         cardList.appendChild(cardElement);
       });
     })
