@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 
+
 // Importamos apollo server (Importamos los typeDefs y los resolvers)
 const { ApolloServer } = require('apollo-server-express');
 const typeDefs = require('../FullStackP2/src/graphql/typeDefs');
@@ -47,8 +48,8 @@ async function startServer() {
   });
 
   // Middelwares (No neces)
-  app.use('/api/cards', cardRoutes);
-  app.use('/api/tasks', taskRoutes);
+  // app.use('/api/cards', cardRoutes);
+  // app.use('/api/tasks', taskRoutes);
   app.use(express.static('public'));
 
 

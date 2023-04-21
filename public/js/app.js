@@ -2,9 +2,11 @@
  * JS funciones generales de control del FrontEnd
  */
 
+// const {Query} = require('../../src/graphql/resolvers')
+
 // URL's de llamadas al Backend
-const GET_CARDS_URL = "http://localhost:3000/api/cards/getCards"
-const POST_CARDS_URL = "http://localhost:3000/api/cards/newCard"
+const GET_CARDS_URL = "http://localhost:3000"
+const POST_CARDS_URL = "http://localhost:3000"
 
 // Paleta de colores
 const DEFAULT_COLOR = "#edede9"; 
@@ -14,14 +16,19 @@ const WHT_COLOR = "#FAFAFA";
 
   // incorpora los datos, en principio de un fichero json, más tarde cambiará a backend
   function fetchWeeks(){
-    fetch(GET_CARDS_URL)
+    fetch(GET_CARDS_URL, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({quey: '{getCards {cardId num_semana}}'})
+    })
     .then((response) => response.json())
     .then((data) => {
       const cardList = document.getElementById('weekContainer');
       cardList.innerHTML = '';
+      const cardElement = document.createElement('div');
       data.forEach((card) => {
-        const cardElement = document.createElement('div');
-        
         cardElement.innerHTML =     
       `<div  class="card mb-3 p-2" style="background-color: ${card.color}; border: 1px solid DEE2E6;  border-radius: 18px">
         <div class="card-body">
@@ -35,7 +42,6 @@ const WHT_COLOR = "#FAFAFA";
                     <button class="btn btn-danger" onclick="deleteCardById('${card.cardId}')"> Eliminar </button>
                 </div>
             </div>`;
-
         cardList.appendChild(cardElement);
       });
     })
@@ -68,9 +74,9 @@ const WHT_COLOR = "#FAFAFA";
       })
       .catch((error) => {
         console.error('Error al crear tarjeta:', error);
-      });
-    
+      }); 
   }
+
 
   /**
    * pone el título en el navbar
@@ -102,7 +108,7 @@ const WHT_COLOR = "#FAFAFA";
       modalAddTask();
       modalDeleteTask();
       fetchWeeks();
-      fillData(testData);
+      // fillData(testData);
   }
 
 

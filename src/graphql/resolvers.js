@@ -1,14 +1,23 @@
 const Card = require('../models/cardModel');
 const Task = require('../models/taskModel');
+const {getCards} = require('../controllers/cardControllers')
 
+// IMPORTANTE, las querys/mutations se tienen que crear utilizando los métodos
+// Ya definidos en los controllers.
 module.exports = {
     Query: {
         //Queries de las Cards
         async Card(_, {ID}){
             return await Card.findById(ID)
         },
+        // Ejemplo!!!
         async getCards(){
-            return await Card.find().sort({ year: -1}) //-1 the most recent ,1 the oldest
+            try {
+                getCards();
+                console.log('Mostrando las Cards...');
+            } catch (error) {
+                console.log("No se han podido mostrar las cards: " + error );
+            }
         } ,
         //Queries de las Tasks
         async Task(_, {ID}){

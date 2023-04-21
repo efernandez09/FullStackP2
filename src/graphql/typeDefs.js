@@ -51,6 +51,7 @@ type Query{
     getTasks(idcard: ID!): [Task]
 
     Card(ID: ID!): Card!
+    getCards(Card: CardInput) : [Card]!
     getCardWeek(num_semana: String!): Card!
     getCardsYear(year: String!): [Card]
 }
