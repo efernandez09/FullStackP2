@@ -204,16 +204,13 @@ btnAddTask.addEventListener('click', function (){
             modCompletada = 'S';
         }   
         if (modalAccion.value === "add") {
-              tasks({"taskid" : ++numTareas + "", "cardid" : plan.id, "nombre" : nomTarea.value, "color" : modColorTarea.value, "descripcion" : modTaskdesc.value, "dia" : modalDia, "completada":modCompletada, "horaI":modHoraI.value, "horaF":modHoraF.value});
-            //aquí irá la llamada a función de insert en bdd de la bdd a task.js
-              generateTask()   ;        //creamos la nueva tarea semanal 
+            //  tasks({"taskid" : ++numTareas + "", "cardid" : plan.id, "nombre" : nomTarea.value, "color" : modColorTarea.value, "descripcion" : modTaskdesc.value, "dia" : modalDia, "completada":modCompletada, "horaI":modHoraI.value, "horaF":modHoraF.value});
+              createTask(plan.id, nomTarea.value,  modTaskdesc.value, modColorTarea.value, modalDia, modCompletada, modHoraI.value, modHoraF.value);
         }
         else {
-            tasks({"taskid" : modIdTask.value + "", "cardid" : plan.id, "nombre" : nomTarea.value, "color" : modColorTarea.value, "descripcion" : modTaskdesc.value, "dia" : modalDia, "completada":modCompletada, "horaI":modHoraI.value, "horaF":modHoraF.value});
-            //aquí irá la llamada a función de actualización de la bdd en task.js
-            updateTaskDiv();
-
-        }
+          //  tasks({"taskid" : modIdTask.value + "", "cardid" : plan.id, "nombre" : nomTarea.value, "color" : modColorTarea.value, "descripcion" : modTaskdesc.value, "dia" : modalDia, "completada":modCompletada, "horaI":modHoraI.value, "horaF":modHoraF.value});
+            editTask(modIdTask.value, plan.id, nomTarea.value,  modTaskdesc.value, modColorTarea.value, modalDia, modCompletada, modHoraI.value, modHoraF.value)
+         }
             // Limpiamos los valores del formulario    
         nomTarea.value = "";
         modTaskdesc.value = "";

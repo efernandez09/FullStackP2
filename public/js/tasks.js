@@ -5,7 +5,7 @@
 
     // variables de las tareas
     let  idT = "";
-    let  idtask = "";
+    let  idCardTask = "";
     let  nombreT = "";
     let  colorT = "";
     let  descripcionT = "";
@@ -22,8 +22,8 @@
      */
 
     function tasks(task) {
-        this.idT = task.id;
-        this.idtask = task.idtask;
+        this.idT = task.taskId;
+        this.idCardTask = task.cardId;
         this.nombreT = task.nombre;
         this.colorT = task.color;
         this.descripcionT = task.descripcion;
@@ -86,7 +86,7 @@
     function getTaskHtml(){
       let html= `<h5 class="p-2">${this.nombreT}</h5>  
       <input type="hidden" id="diaTarea" class="diaTarea" value="${this.dia}">  
-      <input type="hidden" id="idT" value="${this.idtask}"> 
+      <input type="hidden" id="idT" value="${this.idCardTask}"> 
       <input type="hidden" id="descTarea" value="${this.descripcionT}">  
       <input type="hidden" id="idT" value="${this.idT}">      
       <input type="hidden" id="completada" value="${this.completada}">   
@@ -106,11 +106,11 @@
 
 
 
-  /**
+  /** ESTAS FUNCIONES YA NO SON NECESARIOAS
    * función que cargará las tarjetas obtenidas de la lectura de datos
    * si la tarea pertenece a la semana la carga
    * @param {*} jsonTask 
-   */
+   
   function loadTasks(jsonTask){
     jsonTask.forEach(weekTask => {
       if (weekTask.idcard === plan.id){
@@ -120,11 +120,11 @@
       }    
     });
   }
-
+*/
 
   /**
    * incorpora los datos, en principio de un fichero json, más tarde cambiará a backend
-   */
+ 
   function fetchTasks(){
     fetch('../src/data/mocktasks.json')
     .then((response) => response.json())
@@ -132,7 +132,7 @@
       loadTasks(json);
     });
   }
-
+*/
 
 /**
  * Se encarga de 

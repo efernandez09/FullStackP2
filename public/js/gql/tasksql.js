@@ -30,7 +30,8 @@
       body: query})
     .then((res) => res.json())
     .then((res) => {
-      cards(res.data.createTask); //pon la card en el tablero con esmero.
+      tasks(res.data.createTask); 
+      generateTask()   ;        //creamos la nueva tarea semanal 
       return res.data.createTask;
     })
     .catch((error) => {
@@ -43,7 +44,7 @@
 /**
   *  Función que te actualiza la task pero no te la hace
   */
-function editTask(cardId, nombre,  descripcion, color, dia, completada, horaI, horaF){
+function editTask(taskId, cardId, nombre,  descripcion, color, dia, completada, horaI, horaF){
   const vacaciones = (vacas === "S");
   const query = JSON.stringify({
     query: `mutation editTask {
@@ -72,7 +73,8 @@ function editTask(cardId, nombre,  descripcion, color, dia, completada, horaI, h
       body: query})
     .then((res) => res.json())
     .then((res) => {
-      cards(res.data.createTask); //pon la card en el tablero con esmero.
+      tasks(res.data.createTask); //pon la card en el tablero con esmero.
+      updateTaskDiv();
       return res.data.createTask;
     })
     .catch((error) => {

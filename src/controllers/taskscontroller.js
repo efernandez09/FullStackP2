@@ -25,7 +25,6 @@ exports.newTask = async (cardId, nombre, descripcion,  color, dia, completada, h
     try{
         //l'id de la task serà el cardId + los milis, no hi poden haver dos repetides
         const Id =  Ids.generateId(cardId);
-        //primer crea l'objecte
            //primer crea l'objecte
            const createdTask = new Task({
             cardId:cardId, 
