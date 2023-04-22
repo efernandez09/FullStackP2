@@ -76,10 +76,10 @@
  * Función que elimina tarjetas y bichos que pican
  */
 
-function deleteCardWeeks(cardId){
+function deleteCardWeeks(id, cardId){
   const query = JSON.stringify({
     query: `mutation DeleteCards {
-      deleteCards(cardId: ${cardId}) 
+      deleteCards(cardId: "${cardId}")
   }`
   })
 
@@ -92,8 +92,8 @@ function deleteCardWeeks(cardId){
       body: query})
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
-      return true;
+      if (res.data.deleteCards) weekRemove(id);
+      return res.data.deleteCards;
     })
     .catch((error) => {
       console.error('Error al crear la tarjeta:', error);

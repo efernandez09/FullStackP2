@@ -36,26 +36,24 @@ exports.newCard = async (semana, nombre, color, descripcion, year, vacaciones)=>
         });
 
         const res = await createdCards.save(); //MongoDb Saving
-        console.log(res);
         //retorna el resultat
-        rej =   {"cardId" : res.cardId, "semana" : res.semana, "nombre" : res.nombre, "color" : res.color, "descripcion" : res.descripcion, "year" : res.year, "vacaciones" : res.vacaciones};
-        return rej;
+        resj =   {"cardId" : res.cardId, "semana" : res.semana, "nombre" : res.nombre, "color" : res.color, "descripcion" : res.descripcion, "year" : res.year, "vacaciones" : res.vacaciones};
+        return resj;
     }
     catch(e){
         console.log(e);
-        return -1;
+        return {"cardId" : -1};
     }  
 }
 
 exports.delCard= async (id) => {
     try{
-        const cardDeleted = (await Cards.deleteOne({cardId: id})).deleteCount;
-        //llamar a borrado de tareas asociadas
-        return cardDeleted;
+        const cardDeleted = await Cards.deleteOne({cardId: id});
+        return (cardDeleted.deletedCount > 0);
     }
     catch(e){
         console.log(e);
-        return -1;
+        return false;
     }
 }
 

@@ -56,7 +56,7 @@ function getHtmlCard(){
                     <p class="card-text"><strong>Año: </strong>${this.year}</p>
                     <p class="card-text"><strong>Fecha Inicio Semana: </strong>${this.fechaInicio}</p>
                     <button class="btn btn-primary" onclick="weekTasks(${this.cardParms}, )"> Acceder </button>
-                    <button class="btn btn-danger" onclick="deleteWeek('${this.getDivIdCard()}', ${this.cardParms})"> Eliminar </button>
+                    <button class="btn btn-danger" onclick="deleteCardById('${this.getDivIdCard()}', ${this.cardParms})"> Eliminar </button>
                 </div>
             </div>`;
     return html;

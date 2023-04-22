@@ -39,7 +39,6 @@ module.exports = {
         },
 
         async deleteCards(_, {cardId:id}){     
-            console.log(id);
             return Cards.delCard(id);
         },
 

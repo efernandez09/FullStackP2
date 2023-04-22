@@ -80,40 +80,27 @@ let closeButton = document.getElementById('btnCloseWeekModal');
 }
 );
 
-//Funcion que abre el modal de confirmación de eliminar
-function deleteWeek(week, card){
-    deleteModal.showModal();
-    deleteBtn.addEventListener('click', function(){
-      console.log(week);
-      console.log(card.cardId);
-      deleteCardWeeks(card.cardId);
-        week.remove()
-        deleteModal.close();
-    })
-    closeDeleteButton.addEventListener('click', function(){
-        deleteModal.close();
-    })
-}
-
-
-
-
 
 /**
  * Funcion que abre el modal de confirmación de eliminar
+ * y si se confirma se E L I M I N A
  * @param {*} id 
  */
 
-function deleteCardById(id){
+function deleteCardById(id, card){
   deleteModal.showModal();
   deleteBtn.addEventListener('click', function(){
-      const week= document.getElementById(id);
-      week.remove();
+      deleteCardWeeks(id, card.cardId);  
       deleteModal.close();
   })
   closeDeleteButton.addEventListener('click', function(){
       deleteModal.close();
   })
+}
+
+function weekRemove(id){
+  const week= document.getElementById(id);
+  week.remove();
 }
 
 

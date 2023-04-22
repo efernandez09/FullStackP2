@@ -202,7 +202,6 @@ btnAddTask.addEventListener('click', function (){
         let modCompletada="N";
         if (document.getElementById("modCompletada").checked) {
             modCompletada = 'S';
-            console.log(modCompletada)
         }   
         if (modalAccion.value === "add") {
               tasks({"id" : ++numTareas + "", "idcard" : plan.id, "nombre" : nomTarea.value, "color" : modColorTarea.value, "descripcion" : modTaskdesc.value, "dia" : modalDia, "completada":modCompletada, "horaI":modHoraI.value, "horaF":modHoraF.value});
