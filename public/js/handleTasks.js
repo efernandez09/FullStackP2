@@ -112,7 +112,7 @@ function createWeekDays(){
    * Carga la pantalla de planificación semanal de tareas
    */
 function loadDivTasksWeeks(){
-    loadNavBar(`PLANIFICACIÓN SEMANA ${plan.num_semana} AÑO ${plan.year}`);
+    loadNavBar(`PLANIFICACIÓN SEMANA ${plan.semana} AÑO ${plan.year}`);
     let container = document.getElementById("container");
     container.innerHTML= `<div class="row" id="tareasContainer">
     </div>`;
@@ -204,12 +204,12 @@ btnAddTask.addEventListener('click', function (){
             modCompletada = 'S';
         }   
         if (modalAccion.value === "add") {
-              tasks({"id" : ++numTareas + "", "idcard" : plan.id, "nombre" : nomTarea.value, "color" : modColorTarea.value, "descripcion" : modTaskdesc.value, "dia" : modalDia, "completada":modCompletada, "horaI":modHoraI.value, "horaF":modHoraF.value});
+              tasks({"taskid" : ++numTareas + "", "cardid" : plan.id, "nombre" : nomTarea.value, "color" : modColorTarea.value, "descripcion" : modTaskdesc.value, "dia" : modalDia, "completada":modCompletada, "horaI":modHoraI.value, "horaF":modHoraF.value});
             //aquí irá la llamada a función de insert en bdd de la bdd a task.js
               generateTask()   ;        //creamos la nueva tarea semanal 
         }
         else {
-            tasks({"id" : modIdTask.value + "", "idcard" : plan.id, "nombre" : nomTarea.value, "color" : modColorTarea.value, "descripcion" : modTaskdesc.value, "dia" : modalDia, "completada":modCompletada, "horaI":modHoraI.value, "horaF":modHoraF.value});
+            tasks({"taskid" : modIdTask.value + "", "cardid" : plan.id, "nombre" : nomTarea.value, "color" : modColorTarea.value, "descripcion" : modTaskdesc.value, "dia" : modalDia, "completada":modCompletada, "horaI":modHoraI.value, "horaF":modHoraF.value});
             //aquí irá la llamada a función de actualización de la bdd en task.js
             updateTaskDiv();
 
@@ -260,32 +260,27 @@ function updateTaskDiv(){
  * MODAL ELIMINAR TAREA
  */
 
-function deleteTask(){
-    document.getElementById("deleteTarea").showModal(); //Mostrar modal añadir tareas
-}
-
-const btnCloseDelTarea = document.getElementById("btnCloseDelTarea");
-const btnEliminarTarea = document.getElementById('btnEliminarTarea');
-
-
-// Función que cierra el modal al pulsar el botón de cerrar
-btnCloseDelTarea.addEventListener('click', function(){
-    document.getElementById("deleteTarea").close();
-    })
+// -----
 
 /**
  * Funcion que abre el modal de confirmación de eliminar
  * @param {*} id 
+ * @param {task} 
  */
-function deleteTaskById(idTask){
+function deleteTaskById(idTask, task){
     deleteModal=document.getElementById("deleteTarea");
     deleteModal.showModal();
     btnEliminarTarea.addEventListener('click', function(){
-        const task= document.getElementById(idTask);
-        task.remove();
+        deleteTask(idTask, task.taskId); 
         deleteModal.close();
     })
     btnCloseDelTarea.addEventListener('click', function(){
         deleteModal.close();
     })
 }    
+
+
+function taskRemove(idTask){
+    const task= document.getElementById(idTask);
+    task.remove();
+  }

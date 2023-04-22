@@ -1,7 +1,8 @@
 const {model, Schema} = require('mongoose');
 
 const tasksSchema = new Schema({
-    idcard: {type: String, required: true},
+    taskId: {type: String, required: true},
+    cardId: {type: String, required: true},
     nombre: {type: String, required: true},
     descripcion: {type: String, required: true},
     color: {type: String, required: true},

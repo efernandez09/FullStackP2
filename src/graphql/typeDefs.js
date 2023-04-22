@@ -33,7 +33,7 @@ input CardsInput {
 }
 
 
-input TaskInput {    
+input TaskInput { 
     cardId:  String!,
     nombre: String!,
     descripcion: String!,
@@ -46,7 +46,7 @@ input TaskInput {
 
 type Query{    
     Task(taskId: String!): Task!
-    getTasks(cardId: ID!): [Task]
+    getTasks(cardId: String!): [Task]
     Cards(cardId: String!): Cards!
     getCards: [Cards]
 }

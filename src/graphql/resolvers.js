@@ -1,13 +1,12 @@
 const Cards = require('../controllers/cardscontroller.js');
-const Tasks = require('../models/tasks');
-
+const Tasks = require('../controllers/taskscontroller.js');
 
 
 module.exports = {
     Query: {
         //Queries de las Cards
         Cards(_, {ID}){
-            return findCard(ID);
+            return Cards.findCard(ID);
         },
         getCards(){
             return Cards.qryCards();
@@ -15,10 +14,10 @@ module.exports = {
 
         //Queries de las Tasks
         async Task(_, {ID}){
-            return await Tasks.findById(ID)
+            return Tasks.findTask(ID);
         },
         async getTasks(_, {cardId}){
-            return await Tasks.find({_id : cardId}).sort({ dia: -1}) //-1 the most recent ,1 the oldest
+            return Tasks.qryCards(cardId);
         }     
        
     },
@@ -51,40 +50,19 @@ module.exports = {
          */
         
         async createTask(_, {TaskInput: {cardId, nombre,  descripcion, color, dia, completada, horaI, horaF}}){
-            //primer crea l'objecte
-            const createdTask = new Task({
-                cardId:cardId, 
-                nombre:nombre,  
-                descripcion:descripcion, 
-                color:color, 
-                dia:dia, 
-                completada:completada, 
-                horaI:horaI, 
-                horaF:horaF
-            });
-
-            const res = await createdTask.save(); //MongoDb Saving
-            console.log(res._doc);
-            //retorna el resultat, el id el farem servir per identificar la tasca al html
-            return {
-                id: res.id, 
-                ...res._doc
-            }
+            return Tasks.newTask(cardId, nombre, descripcion,  color, dia, completada, horaI, horaF);
         },
 
         async deleteTask(_, {ID}){
-            const wasDeleted = (await Task.deleteOne({_id: ID})).deleteCount;            
-            return wasDeleted; //1 if somethins was delete, 0 if nothing was deleted
+            return Tasks.delTask(ID);
         },
 
         async deleteTasksOfTheWeek(_, {ID}){
-            const numDeleted = (await Task.deleteMany({cardId: ID})).deleteCount;            
-            return numDeleted; //count of deleted tasks
+            return Tasks.delCardTasks(ID);
         },
 
-        async editTask(_, {ID, TaskInput: {name, description}}){
-            const wasEdited = (await Task.updateOne({_id: ID}, { name: name, description: description})).modifiedCount;
-            return wasEdited; //1 was edited, 0 nothing edited
+        async editTask(_, {taskid, TaskInput: {nombre, descripcion,  color, dia,  horaI, horaF}}){
+            return Tasks.updTask(taskid, nombre, descripcion,  color, dia,  horaI, horaF);
         }
 
     }

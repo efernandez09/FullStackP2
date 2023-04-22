@@ -96,7 +96,7 @@
           <button class="btn btn-primary tareas-btn" onclick="updateTask(${this.taskParms})">
               Modificar
           </button>
-          <button class="btn btn-danger tareas-btn" onclick="deleteTaskById('${this.getTaskDivId()}')")>
+          <button class="btn btn-danger tareas-btn" onclick="deleteTaskById('${this.getTaskDivId()}', ${this.taskParms})")>
               Eliminar
           </button>
       </div>`;

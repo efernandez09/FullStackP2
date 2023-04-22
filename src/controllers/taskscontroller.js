@@ -1,8 +1,9 @@
 const Tasks = require('../models/tasks');
+const Ids = require('../controllers/ids.js');
 
 exports.findTask = async (id)=>{
     try{
-        return await Tasks.findOne({ cardId: id });
+        return await Tasks.findOne({ taskId: id });
     }
     catch (e){
         console.log(e);
@@ -10,9 +11,9 @@ exports.findTask = async (id)=>{
     }
 }
 
-exports.qryTasks = async ()=>{
+exports.qryTasks = async (cardId)=>{
     try{
-        return  await Tasks.find({}).sort({year: -1, semana: -1}) //-1 the most recent ,1 the oldest
+        return  await Tasks.find({cardId : cardId}).exec().sort({dia: -1, taskId: -1}) //-1 the most recent ,1 the oldest
     }
     catch (e){
         console.log(e);
@@ -20,38 +21,48 @@ exports.qryTasks = async ()=>{
     }
 }
 
-exports.newTask = async (semana, nombre, color, descripcion, year, vacaciones)=>{
+exports.newTask = async (cardId, nombre, descripcion,  color, dia, completada, horaI, horaF)=>{
     try{
-        //l'id de la card serà any i semana, no hi poden haver dos repetides
-        const Id = year.toString() + semana.toString();
+        //l'id de la task serà el cardId + los milis, no hi poden haver dos repetides
+        const Id =  Ids.generateId(cardId);
         //primer crea l'objecte
-        const createdTasks = new Tasks({
-            cardId: Id,
-            semana: semana, 
-            nombre: nombre, 
-            color: color, 
+           //primer crea l'objecte
+           const createdTask = new Task({
+            cardId:cardId, 
+            nombre:nombre,  
             descripcion:descripcion, 
-            year:year, 
-            vacaciones:vacaciones
+            color:color, 
+            dia:dia, 
+            completada:completada, 
+            horaI:horaI, 
+            horaF:horaF
         });
 
         const res = await createdTasks.save(); //MongoDb Saving
-        console.log(res._doc);
         //retorna el resultat
-        return {
-            id: res.id, 
-            ...res._doc
-        }
+        let resj = {"taskId":res.taskId, "cardId":res.cardId, "nombre":res.nombre, "descripcion":res.descripcion,  "color":res.color, "dia":res.dia,  "horaI": res.horaI, "horaF": res.horaF}
+        return resj;
     }
     catch(e){
         console.log(e);
-        return -1;
+        return {"taskId":-1}
     }  
 }
 
 exports.delTask= async (id) => {
     try{
-        const cardDeleted = (await Tasks.deleteOne({cardId: id})).deleteCount;
+        const cardDeleted = (await Tasks.deleteOne({taskId: id})).deleteCount;
+        //llamar a borrado de tareas asociadas
+        return (cardDeleted>0);
+    }
+    catch(e){
+        console.log(e);
+        return -1;
+    }
+}
+exports.delCardTasks= async (cardid) => {
+    try{
+        const cardDeleted =  (await Task.deleteMany({cardId: cardid})).deleteCount;   
         //llamar a borrado de tareas asociadas
         return cardDeleted;
     }
@@ -60,11 +71,12 @@ exports.delTask= async (id) => {
         return -1;
     }
 }
+  
 
-exports.updTask= async (id, color, descripcion, vacaciones) => {
+exports.updTask= async (taskid, nombre, descripcion,  color, dia,  horaI, horaF) => {
     try{
-        const cardMod = (await Tasks.updateOne({cardId: id}, { color, descripcion, vacaciones})).modifiedCount;
-        return cardMod;
+        const cardMod = (await Tasks.updateOne({taskId: taskid}, {nombre, descripcion,  color, dia,  horaI, horaF})).modifiedCount;
+        return (cardMod>0);
     }
     catch(e){
         console.log(e);
