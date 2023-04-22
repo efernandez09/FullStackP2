@@ -1,6 +1,6 @@
 const Cards = require('../models/cards');
 
-exports.findCardById = async (id)=>{
+exports.findCard = async (id)=>{
     try{
         return await Cards.findOne({ cardId: id });
     }
@@ -36,12 +36,10 @@ exports.newCard = async (semana, nombre, color, descripcion, year, vacaciones)=>
         });
 
         const res = await createdCards.save(); //MongoDb Saving
-        console.log(res._doc);
+        console.log(res);
         //retorna el resultat
-        return {
-            id: res.id, 
-            ...res._doc
-        }
+        rej =   {"cardId" : res.cardId, "semana" : res.semana, "nombre" : res.nombre, "color" : res.color, "descripcion" : res.descripcion, "year" : res.year, "vacaciones" : res.vacaciones};
+        return rej;
     }
     catch(e){
         console.log(e);

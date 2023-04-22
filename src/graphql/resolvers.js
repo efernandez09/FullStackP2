@@ -7,7 +7,7 @@ module.exports = {
     Query: {
         //Queries de las Cards
         Cards(_, {ID}){
-            return findCardById(ID);
+            return findCard(ID);
         },
         getCards(){
             return Cards.qryCards();
@@ -35,7 +35,7 @@ module.exports = {
          * @returns 
          */
         async createCards(_, {CardsInput: {semana, nombre, color, descripcion, year, vacaciones}}){
-            return Cards.newCard(semana, nombre, color, descripcion, year, vacaciones);
+           return Cards.newCard(semana, nombre, color, descripcion, year, vacaciones);
         },
 
         async deleteCards(_, {cardId:id}){     

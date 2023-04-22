@@ -64,11 +64,11 @@ let closeButton = document.getElementById('btnCloseWeekModal');
   else {
 
     //creamos la nueva card de semanal
-    let modVacaciones = 'N';
-    if (document.getElementById("vacaciones").checked) modVacaciones = 'S';
+    let modVacaciones = false;
+    if (document.getElementById("vacaciones").checked) modVacaciones = true;
+    //creamos la card en mongo y la cargamos en tablero
+    cardCreated = createCardWeeks(modColor.value, modDesc.value, modNombre.value, modNumSemana.value, modVacaciones, modYear.value);
 
-    cards({"id" : modYear.Value + modNumSemana.value + "", "num_semana" : modNumSemana.value, "nombre" : modNombre.value, "color" : modColor.value, "descripcion" : modDesc.value, "year" : modYear.value, "vacaciones" : modVacaciones});
- 
     // Limpiamos los valores del formulario
 
     modNombre.value = "";
@@ -81,9 +81,12 @@ let closeButton = document.getElementById('btnCloseWeekModal');
 );
 
 //Funcion que abre el modal de confirmación de eliminar
-function deleteWeek(week){
+function deleteWeek(week, card){
     deleteModal.showModal();
     deleteBtn.addEventListener('click', function(){
+      console.log(week);
+      console.log(card.cardId);
+      deleteCardWeeks(card.cardId);
         week.remove()
         deleteModal.close();
     })
