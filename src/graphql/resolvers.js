@@ -1,22 +1,24 @@
-const Cards = require('../models/cards');
+const Cards = require('../controllers/cardscontroller.js');
 const Tasks = require('../models/tasks');
+
+
 
 module.exports = {
     Query: {
         //Queries de las Cards
-        async Cards(_, {ID}){
-            return await Cards.findById(ID)
+        Cards(_, {ID}){
+            return findCardById(ID);
         },
-        async getCards(){
-            return await Cards.find() //-1 the most recent ,1 the oldest
+        getCards(){
+            return Cards.qryCards();
         },
 
         //Queries de las Tasks
         async Task(_, {ID}){
-            return await Task.findById(ID)
+            return await Tasks.findById(ID)
         },
         async getTasks(_, {cardId}){
-            return await Task.find({_id : cardId}).sort({ dia: -1}) //-1 the most recent ,1 the oldest
+            return await Tasks.find({_id : cardId}).sort({ dia: -1}) //-1 the most recent ,1 the oldest
         }     
        
     },
@@ -33,43 +35,26 @@ module.exports = {
          * @returns 
          */
         async createCards(_, {CardsInput: {semana, nombre, color, descripcion, year, vacaciones}}){
-            //primer crea l'objecte
-            const createdCards = new Cards({
-                semana: semana, 
-                nombre: nombre, 
-                color: color, 
-                descripcion:descripcion, 
-                year:year, 
-                vacaciones:vacaciones
-            });
-
-            const res = await createdCards.save(); //MongoDb Saving
-            console.log(res._doc);
-            //retorna el resultat
-            return {
-                id: res.id, 
-                ...res._doc
-            }
+            return Cards.newCard(semana, nombre, color, descripcion, year, vacaciones);
         },
 
-        async deleteCards(_, {ID}){
-            const wasDeleted = (await Cards.deleteOne({_id: ID})).deleteCount;            
-            return wasDeleted; //1 if somethins was delete, 0 if nothing was deleted
+        async deleteCards(_, {cardId:id}){     
+            console.log(id);
+            return Cards.delCard(id);
         },
 
-        async editCards(_, {ID, CardsInput: {name, description}}){
-            const wasEdited = (await Cards.updateOne({_id: ID}, { name: name, description: description})).modifiedCount;
-            return wasEdited; //1 was edited, 0 nothing edited
+        async editCards(_, {cardId:id, CardsInput: {color, descripcion, vacaciones}}){
+            return Cards.updCard(id, color, descripcion, vacaciones);
         },
       
         /**
          * Mutations de Tasks
          */
         
-        async createTask(_, {TaskInput: {idcard, nombre,  descripcion, color, dia, completada, horaI, horaF}}){
+        async createTask(_, {TaskInput: {cardId, nombre,  descripcion, color, dia, completada, horaI, horaF}}){
             //primer crea l'objecte
             const createdTask = new Task({
-                idcard:idcard, 
+                cardId:cardId, 
                 nombre:nombre,  
                 descripcion:descripcion, 
                 color:color, 

@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express');
 
 module.exports = gql`
 type Task {
-    idcard: String!,
+    cardId: String!,
     nombre: String!,
     descripcion: String!,
     color: String!,
@@ -13,6 +13,7 @@ type Task {
   }
 
 type Cards{
+    cardId: String!
     semana: Int!
     nombre: String!
     color: String!
@@ -32,7 +33,7 @@ input CardsInput {
 
 
 input TaskInput {
-    idcard:  String!,
+    cardId:  String!,
     nombre: String!,
     descripcion: String!,
     color: String!,
@@ -44,20 +45,20 @@ input TaskInput {
 
 type Query{    
     Task(ID: ID!): Task!
-    getTasks(idcard: ID!): [Task]
+    getTasks(cardId: ID!): [Task]
     Cards(ID: ID!): Cards!
     getCards: [Cards]
 }
 
 type Mutation {
     createCards(CardsInput: CardsInput): Cards!
-    deleteCards(ID: ID!): Boolean
-    editCards(ID: ID!, CardsInput: CardsInput): Boolean
+    deleteCards(cardId: String!): Boolean
+    editCards(cardId: String!, CardsInput: CardsInput): Boolean
   
     createTask(taskInput: TaskInput): Task!
-    deleteTask(ID: ID!): Boolean
+    deleteTask(cardId: String!): Boolean
     deleteTasksOfTheWeek(cardId: ID!): Int
-    editTask(ID: ID!, taskInput: TaskInput): Boolean
+    editTask(cardId: String!, taskInput: TaskInput): Boolean
 }
 `
 

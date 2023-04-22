@@ -1,6 +1,7 @@
 const {model, Schema} = require('mongoose');
 
 const cardsSchema = new Schema({
+    cardId: {type: String, required:true},
     semana: {type: Number, required: true},
     nombre: {type: String, required: true},
     color: {type: String, required: true},
