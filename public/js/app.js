@@ -2,75 +2,15 @@
  * JS funciones generales de control del FrontEnd
  */
 
-// URL's de llamadas al Backend
-const GET_CARDS_URL = "http://localhost:3000/api/cards/getCards"
-const POST_CARDS_URL = "http://localhost:3000/api/cards/newCard"
+
+const GRAPHQL_URL = "http://localhost:3000/graphql"
 
 // Paleta de colores
 const DEFAULT_COLOR = "#edede9"; 
 const DEFAULT_TASK_COLOR = "#eab676"
 const WHT_COLOR = "#FAFAFA";
+ 
 
-
-  // incorpora los datos, en principio de un fichero json, más tarde cambiará a backend
-  function fetchWeeks(){
-    fetch(GET_CARDS_URL)
-    .then((response) => response.json())
-    .then((data) => {
-      const cardList = document.getElementById('weekContainer');
-      cardList.innerHTML = '';
-      data.forEach((card) => {
-        const cardElement = document.createElement('div');
-        
-        cardElement.innerHTML =     
-      `<div  class="card mb-3 p-2" style="background-color: ${card.color}; border: 1px solid DEE2E6;  border-radius: 18px">
-        <div class="card-body">
-            <div class="d-flex justify-content-between">
-            <h5 class="card-title "><strong>${card.nombre}</strong></h5>`+  ((card.vacaciones === "S") ? `<strong>¡VACACIONES!</strong>` : ``) + 
-            `</div> <p class="card-text">${card.descripcion}</p>
-                    <p class="card-text"><strong>Semana Número: </strong>${card.num_semana}</p>
-                    <p class="card-text"><strong>Año: </strong>${card.year}</p>
-                    <p class="card-text"><strong>Fecha Inicio Semana: </strong>${card.fechaInicio}</p>
-                    <button class="btn btn-primary" onclick="weekTasks(${card.cardParms}, )"> Acceder </button>
-                    <button class="btn btn-danger" onclick="deleteCardById('${card.cardId}')"> Eliminar </button>
-                </div>
-            </div>`;
-
-        cardList.appendChild(cardElement);
-      });
-    })
-    .catch((error) => {
-      console.error('Error al obtener tarjetas:', error);
-    });
-  }
-
-  // Test data
-
-  const testData = [
-    {cardId : "201313", num_semana : 13, nombre : "Tarjeta 1", color : "#E0CFFC", descripcion : "Semana mock 1", year : 2023, vacaciones : "S"},
-    {cardId : "201315", num_semana : 15, nombre : "Tarjeta 2", color : "#F7D6E6", descripcion : "Semana mock 2", year : 2023, vacaciones : "N"},
-    {cardId : "201318", num_semana : 18, nombre : "Tarjeta 3", color : "#FFF3CD", descripcion : "Semana mock 3", year : 2023, vacaciones : "N"}
-  ];
-
-
-  // Funcion para rellernar la base de datos de las tarjetas
-  function fillData(card) {
-    fetch(POST_CARDS_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(card),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Tarjeta creada:', data);
-      })
-      .catch((error) => {
-        console.error('Error al crear tarjeta:', error);
-      });
-    
-  }
 
   /**
    * pone el título en el navbar
@@ -102,7 +42,6 @@ const WHT_COLOR = "#FAFAFA";
       modalAddTask();
       modalDeleteTask();
       fetchWeeks();
-      fillData(testData);
   }
 
 

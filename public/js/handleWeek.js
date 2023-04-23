@@ -31,6 +31,7 @@ let closeButton = document.getElementById('btnCloseWeekModal');
 
 // Funcion que abre el modal tras tocar el botón de añadir semana
  function addWeekModal() {
+    document.getElementById("vacaciones").checked = false;
     modal.showModal();
  
  }
@@ -64,53 +65,43 @@ let closeButton = document.getElementById('btnCloseWeekModal');
   else {
 
     //creamos la nueva card de semanal
-    let modVacaciones = 'N';
-    if (document.getElementById("vacaciones").checked) modVacaciones = 'S';
+    let modVacaciones = "N";
+    if (document.getElementById("vacaciones").checked) modVacaciones = "S";
+    //creamos la card en mongo y la cargamos en tablero
+    cardCreated = createCardWeeks(modColor.value, modDesc.value, modNombre.value, modNumSemana.value, modVacaciones, modYear.value);
 
-    cards({"id" : modYear.Value + modNumSemana.value + "", "num_semana" : modNumSemana.value, "nombre" : modNombre.value, "color" : modColor.value, "descripcion" : modDesc.value, "year" : modYear.value, "vacaciones" : modVacaciones});
- 
     // Limpiamos los valores del formulario
 
     modNombre.value = "";
     modDesc.value = "";
-    modVacaciones = "";
+    modVacaciones = "N";    
     modColor.value = DEFAULT_COLOR; 
     modal.close();
   }
 }
 );
 
-//Funcion que abre el modal de confirmación de eliminar
-function deleteWeek(week){
-    deleteModal.showModal();
-    deleteBtn.addEventListener('click', function(){
-        week.remove()
-        deleteModal.close();
-    })
-    closeDeleteButton.addEventListener('click', function(){
-        deleteModal.close();
-    })
-}
-
-
-
-
 
 /**
  * Funcion que abre el modal de confirmación de eliminar
+ * y si se confirma se E L I M I N A
  * @param {*} id 
  */
 
-function deleteCardById(id){
+function deleteCardById(id, card){
   deleteModal.showModal();
   deleteBtn.addEventListener('click', function(){
-      const week= document.getElementById(id);
-      week.remove();
+      deleteCardWeeks(id, card.cardId);  
       deleteModal.close();
   })
   closeDeleteButton.addEventListener('click', function(){
       deleteModal.close();
   })
+}
+
+function weekRemove(id){
+  const week= document.getElementById(id);
+  week.remove();
 }
 
 

@@ -5,12 +5,12 @@
 
     // variables de las tareas
     let  idT = "";
-    let  idtask = "";
+    let  idCardTask = "";
     let  nombreT = "";
     let  colorT = "";
     let  descripcionT = "";
     let  dia = "";
-    let completada="";
+    let completada=false;
     let horaI=""; 
     let horaF=""
     let plan; //datos de la card
@@ -22,8 +22,8 @@
      */
 
     function tasks(task) {
-        this.idT = task.id;
-        this.idtask = task.idtask;
+        this.idT = task.taskId;
+        this.idCardTask = task.cardId;
         this.nombreT = task.nombre;
         this.colorT = task.color;
         this.descripcionT = task.descripcion;
@@ -34,6 +34,14 @@
         this.taskParms = JSON.stringify(task).replaceAll('"', "'");         
     }
     
+    function clearTasks(){
+      tasks({"taskId":"", "cardId": "", "nombre": "", "descripcion": "", "color": "", "dia": "", "completada": false, "horaI": "", "horaF": ""});
+    }
+    function setTask(idT, idCardTask, nombreT, descripcionT, colorT, dia, completada, horaI, horaF){
+      tasks({"taskId":idT, "cardId": idCardTask, "nombre": nombreT, "descripcion": descripcionT, "color": colorT, "dia": dia, "completada": completada, "horaI":  horaI, "horaF":horaF});
+    }
+
+
     function generateTask(){
       if (this.dia === "") createUnaTask();
       else createAssignedTask();
@@ -58,7 +66,7 @@
     }
 
     function getTaskDivId(){
-        return "task" + this.idT;
+        return this.idT;
     }
 
     /**
@@ -85,18 +93,20 @@
 
     function getTaskHtml(){
       let html= `<h5 class="p-2">${this.nombreT}</h5>  
-      <input type="hidden" id="diaTarea" class="diaTarea" value="${this.dia}">  
-      <input type="hidden" id="idT" value="${this.idtask}"> 
-      <input type="hidden" id="descTarea" value="${this.descripcionT}">  
-      <input type="hidden" id="idT" value="${this.idT}">      
-      <input type="hidden" id="completada" value="${this.completada}">   
-      <input type="hidden" id="horaI" value="${this.horaI}"> 
-      <input type="hidden" id="horaF" value="${this.horaF}">                          
+      <input type="hidden" id="colorTarea" class="colorTarea" value="${this.colorT}">
+      <input type="hidden" id="diaTarea" class="diaTarea" value="${this.dia}"> 
+      <input type="hidden" id="nombreT" class="nombreT" value="${this.nombreT}">  
+      <input type="hidden" id="idCardTask" class="idCardTask" value="${this.idCardTask}"> 
+      <input type="hidden" id="descTarea" class="descTarea" value="${this.descripcionT}">  
+      <input type="hidden" id="idT" class="idT" value="${this.idT}">      
+      <input type="hidden" id="completada" class="completada" value="${this.completada}">   
+      <input type="hidden" id="horaI" class="horaI" value="${this.horaI}"> 
+      <input type="hidden" id="horaF" class="horaF" value="${this.horaF}">                          
        <div class="d-flex flex-row p-1 justify-content-center gap-1">
           <button class="btn btn-primary tareas-btn" onclick="updateTask(${this.taskParms})">
               Modificar
           </button>
-          <button class="btn btn-danger tareas-btn" onclick="deleteTaskById('${this.getTaskDivId()}')")>
+          <button class="btn btn-danger tareas-btn" onclick="deleteTaskById('${this.getTaskDivId()}', ${this.taskParms})")>
               Eliminar
           </button>
       </div>`;
@@ -106,25 +116,25 @@
 
 
 
-  /**
+  /** ESTAS FUNCIONES YA NO SON NECESARIOAS
    * función que cargará las tarjetas obtenidas de la lectura de datos
    * si la tarea pertenece a la semana la carga
    * @param {*} jsonTask 
-   */
+   
   function loadTasks(jsonTask){
     jsonTask.forEach(weekTask => {
-      if (weekTask.idcard === plan.id){
+      if (weekTask.idcard === plan.cardId){
         numTareas++;
         tasks(weekTask);
         generateTask();
       }    
     });
   }
-
+*/
 
   /**
    * incorpora los datos, en principio de un fichero json, más tarde cambiará a backend
-   */
+ 
   function fetchTasks(){
     fetch('../src/data/mocktasks.json')
     .then((response) => response.json())
@@ -132,18 +142,18 @@
       loadTasks(json);
     });
   }
-
+*/
 
 /**
- * Se encarga de 
+ * Se encarga del panel de tareas y de abejas.
  * @param {*} plan
  */
   function weekTasks(p){
+    clearTasks();
     plan = p; //cargamos los datos de la semana que nos ha llegado de la tarjeta
-
     loadDivTasksWeeks();
     createUnaTasksDiv();
     createWeekTaskDiv();
     createWeekDays();
-    fetchTasks();
+    fetchTasks(p.cardId); //buscamos las tareas de la semana para pintarlas fecth al mongo
   }

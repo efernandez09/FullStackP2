@@ -3,15 +3,12 @@ const express = require('express');
 
 // Importamos apollo server (Importamos los typeDefs y los resolvers)
 const { ApolloServer } = require('apollo-server-express');
-const typeDefs = require('../FullStackP2/src/models/typeDefs');
-const resolvers = require('../FullStackP2/src/controllers/resolvers');
+const typeDefs = require('../FullStackP2/src/graphql/typeDefs');
+const resolvers = require('../FullStackP2/src/graphql/resolvers');
 
-// Importamos las rutas de las Tasks y las Cards (No necesario de momento)
-const cardRoutes = require('../FullStackP2/src/routes/cardRoutes');
-const taskRoutes = require('../FullStackP2/src/routes/taskRoutes');
 
 // Cadena de conexión
-const uri = 'mongodb+srv://admin:1234@cluster0.amvowh2.mongodb.net/test';
+const uri = 'mongodb+srv://admin:1234@cluster0.amvowh2.mongodb.net/weektasks';
 
 // Opciones de configuración de la conexión
 const options = {
@@ -46,9 +43,7 @@ async function startServer() {
     next();
   });
 
-  // Middelwares (No neces)
-  app.use('/api/cards', cardRoutes);
-  app.use('/api/tasks', taskRoutes);
+ 
   app.use(express.static('public'));
 
 

@@ -1,6 +1,6 @@
 
  let  id = "";
- let  num_semana = -1;
+ let  semana = -1;
  let  nombre = "";
  let  color = "";
  let  descripcion = "";
@@ -11,14 +11,15 @@
 
 
 function cards(card) {
-    this.id = card.id;
-    this.num_semana = card.num_semana;
+    this.id = card.cardId;
+    this.semana = card.semana;
     this.nombre = card.nombre;
     this.color = card.color;
     this.descripcion = card.descripcion;
     this.year = card.year;
-    this.fechaInicio = calculaPrimerDiaSemana(this.year, this.num_semana).toLocaleDateString("es-ES");
-    this.vacaciones = card.vacaciones;
+    this.fechaInicio = calculaPrimerDiaSemana(this.year, this.semana).toLocaleDateString("es-ES");
+    if (card.vacaciones) this.vacaciones = "S"
+    else   this.vacaciones = "N";
     this.cardParms = JSON.stringify(card).replaceAll('"', "'"); 
     createDomCard();
 }
@@ -51,11 +52,11 @@ function getHtmlCard(){
             <div class="d-flex justify-content-between">
             <h5 class="card-title "><strong>${this.nombre}</strong></h5>`+  ((this.vacaciones === "S") ? `<strong>¡VACACIONES!</strong>` : ``) + 
             `</div> <p class="card-text">${this.descripcion}</p>
-                    <p class="card-text"><strong>Semana Número: </strong>${this.num_semana}</p>
+                    <p class="card-text"><strong>Semana Número: </strong>${this.semana}</p>
                     <p class="card-text"><strong>Año: </strong>${this.year}</p>
                     <p class="card-text"><strong>Fecha Inicio Semana: </strong>${this.fechaInicio}</p>
                     <button class="btn btn-primary" onclick="weekTasks(${this.cardParms}, )"> Acceder </button>
-                    <button class="btn btn-danger" onclick="deleteCardById('${this.getDivIdCard()}')"> Eliminar </button>
+                    <button class="btn btn-danger" onclick="deleteCardById('${this.getDivIdCard()}', ${this.cardParms})"> Eliminar </button>
                 </div>
             </div>`;
     return html;
