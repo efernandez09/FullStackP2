@@ -31,6 +31,7 @@ let closeButton = document.getElementById('btnCloseWeekModal');
 
 // Funcion que abre el modal tras tocar el botón de añadir semana
  function addWeekModal() {
+    document.getElementById("vacaciones").checked = false;
     modal.showModal();
  
  }
@@ -64,8 +65,8 @@ let closeButton = document.getElementById('btnCloseWeekModal');
   else {
 
     //creamos la nueva card de semanal
-    let modVacaciones = false;
-    if (document.getElementById("vacaciones").checked) modVacaciones = true;
+    let modVacaciones = "N";
+    if (document.getElementById("vacaciones").checked) modVacaciones = "S";
     //creamos la card en mongo y la cargamos en tablero
     cardCreated = createCardWeeks(modColor.value, modDesc.value, modNombre.value, modNumSemana.value, modVacaciones, modYear.value);
 
@@ -73,7 +74,7 @@ let closeButton = document.getElementById('btnCloseWeekModal');
 
     modNombre.value = "";
     modDesc.value = "";
-    modVacaciones = "";
+    modVacaciones = "N";    
     modColor.value = DEFAULT_COLOR; 
     modal.close();
   }
