@@ -6,7 +6,8 @@ const tasksSchema = new Schema({
     nombre: {type: String, required: true},
     descripcion: {type: String, required: true},
     color: {type: String, required: true},
-    dia: {type: Number, required: true},
+    dia: {type: String, required: false},
+    completada: {type: Boolean, required: true},
     horaI: {type: Number, required: true},
     horaF: {type: Number, required: true}
 });

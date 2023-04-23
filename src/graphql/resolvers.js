@@ -17,7 +17,7 @@ module.exports = {
             return Tasks.findTask(ID);
         },
         async getTasks(_, {cardId}){
-            return Tasks.qryCards(cardId);
+            return Tasks.qryTasks(cardId);
         }     
        
     },
@@ -49,20 +49,36 @@ module.exports = {
          * Mutations de Tasks
          */
         
-        async createTask(_, {TaskInput: {cardId, nombre,  descripcion, color, dia, completada, horaI, horaF}}){
-            return Tasks.newTask(cardId, nombre, descripcion,  color, dia, completada, horaI, horaF);
+        async createTask(_, {taskInput: {cardId, nombre,  descripcion, color, dia, completada, horaI, horaF}}){
+           return Tasks.newTask(cardId, nombre, descripcion,  color, dia, completada, horaI, horaF);
         },
 
-        async deleteTask(_, {ID}){
-            return Tasks.delTask(ID);
+        async deleteTask(_, {taskId}){
+            return Tasks.delTask(taskId);
         },
 
-        async deleteTasksOfTheWeek(_, {ID}){
-            return Tasks.delCardTasks(ID);
+        async deleteTasksOfTheWeek(_, {cardId}){
+            return Tasks.delCardTasks(cardId);
         },
 
-        async editTask(_, {taskid, TaskInput: {nombre, descripcion,  color, dia,  horaI, horaF}}){
-            return Tasks.updTask(taskid, nombre, descripcion,  color, dia,  horaI, horaF);
+        /**
+         * Actualiza la tarea
+         * @param {} _ 
+         * @param {*} param1 
+         * @returns 
+         */
+        async editTask(_, {taskId, TaskUpdate: {nombre, descripcion,  color, dia,  horaI, horaF}}){
+            return Tasks.updTask(taskId, nombre, descripcion,  color, dia,  horaI, horaF);
+        },
+
+        /**
+         * Actualiza el día de la tarea
+         * @param {} _ 
+         * @param {*} param1 
+         * @returns 
+         */
+        async editDayTask(_, {taskId, TaskDiaUpdate: {dia}}){
+            return Tasks.updDayTask(taskId, dia);
         }
 
     }

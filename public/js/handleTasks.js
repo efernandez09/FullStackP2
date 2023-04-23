@@ -21,13 +21,24 @@ function allowDrop(ev) {
     ev.preventDefault();
     var taskId = ev.dataTransfer.getData("text");
     ev.currentTarget.appendChild(document.getElementById(taskId));
-    updateDayTaskDiv(ev.target.id, taskId);
+    editDiaTask(taskId,  ev.target.id, plan);
   }
 
   function updateDayTaskDiv(dayId, taskId){
-    let task = document.getElementById(taskId).getElementsByClassName("diaTarea")[0];
-    if (dayId === "unaTasks") dayId = ""; //sin asignar
-    task.value = dayId; //actualizamos su dia de la semana en la div de la tarea
+    if (dayId === "unaTasks") dayId = ""; //sin asignar colorTarea
+    let colorT = document.getElementById(taskId).getElementsByClassName("colorTarea")[0];  
+    let nombreT = document.getElementById(taskId).getElementsByClassName("nombreT")[0];    
+    let idCardTask = document.getElementById(taskId).getElementsByClassName("idCardTask")[0];    
+    let descTarea = document.getElementById(taskId).getElementsByClassName("descTarea")[0];    
+    let completada = document.getElementById(taskId).getElementsByClassName("completada")[0];    
+    let horaI = document.getElementById(taskId).getElementsByClassName("horaI")[0];    
+    let horaF = document.getElementById(taskId).getElementsByClassName("horaF")[0];    
+    let diaTarea = document.getElementById(taskId).getElementsByClassName("diaTarea")[0]; 
+    diaTarea.value = dayId; //actualizamos su dia de la semana en la div de la tarea */
+
+    setTask(taskId, idCardTask.value, nombreT.value, descTarea.value, colorT.value, diaTarea.value, completada.value, horaI.value, horaF.value);
+    tdiv = document.getElementById(taskId); //la función de getTaskDivId nos da el id de la tarjeta
+    tdiv.innerHTML = getTaskHtml();
   }
 
 /**
@@ -204,12 +215,11 @@ btnAddTask.addEventListener('click', function (){
             modCompletada = 'S';
         }   
         if (modalAccion.value === "add") {
-            //  tasks({"taskid" : ++numTareas + "", "cardid" : plan.id, "nombre" : nomTarea.value, "color" : modColorTarea.value, "descripcion" : modTaskdesc.value, "dia" : modalDia, "completada":modCompletada, "horaI":modHoraI.value, "horaF":modHoraF.value});
-              createTask(plan.id, nomTarea.value,  modTaskdesc.value, modColorTarea.value, modalDia, modCompletada, modHoraI.value, modHoraF.value);
+              newTask(plan.cardId, nomTarea.value,  modTaskdesc.value, modColorTarea.value, modalDia, modCompletada, modHoraI.value, modHoraF.value);
         }
         else {
-          //  tasks({"taskid" : modIdTask.value + "", "cardid" : plan.id, "nombre" : nomTarea.value, "color" : modColorTarea.value, "descripcion" : modTaskdesc.value, "dia" : modalDia, "completada":modCompletada, "horaI":modHoraI.value, "horaF":modHoraF.value});
-            editTask(modIdTask.value, plan.id, nomTarea.value,  modTaskdesc.value, modColorTarea.value, modalDia, modCompletada, modHoraI.value, modHoraF.value)
+
+             editTask(modIdTask.value, plan.cardId, nomTarea.value,  modTaskdesc.value, modColorTarea.value, modalDia, modCompletada, modHoraI.value, modHoraF.value);
          }
             // Limpiamos los valores del formulario    
         nomTarea.value = "";
@@ -230,7 +240,6 @@ btnAddTask.addEventListener('click', function (){
 
 /**
  * Recibe el id del div de la tarjeta a actualizar y el json con los datos
- * @param {*} idTask 
  * @param {*} taskJson 
  */
 function updateTask(taskJson){
@@ -239,17 +248,18 @@ function updateTask(taskJson){
     modColorTarea.value = taskJson.color; 
     modHoraI.value=taskJson.horaI;
     modHoraF.value=taskJson.horaF;
+    modalDia=taskJson.dia;
     modalTitle.innerHTML = "Actualizar tarea";
     modalAccion.value = "update";
-    modIdTask.value = taskJson.id; //guardaremos la idTask para actulizar la tarjetilla de tarea
+    modIdTask.value = taskJson.taskId; //guardaremos la idTask para actulizar la tarjetilla de tarea
     if (taskJson.completada==="S") document.getElementById("completada").checked= true;
     else document.getElementById("completada").checked= false;
     document.getElementById("addTarea").showModal(); //Mostrar modal añadir tareas
 }
 
-function updateTaskDiv(){
-    tdiv = document.getElementById(getTaskDivId()); //la función de getTaskDivId nos da el id de la tarjeta
-    tdiv.setAttribute("style", "border: 1px solid DEE2E6;  border-radius: 18px; background-color:" + modColorTarea.value);
+function updateTaskDiv(task){
+    tdiv = document.getElementById(task.taskId); //la función de getTaskDivId nos da el id de la tarjeta
+    tdiv.setAttribute("style", "border: 1px solid DEE2E6;  border-radius: 18px; background-color:" + task.color);
     tdiv.innerHTML = getTaskHtml();
 }
 
@@ -267,9 +277,11 @@ function updateTaskDiv(){
 function deleteTaskById(idTask, task){
     deleteModal=document.getElementById("deleteTarea");
     deleteModal.showModal();
+    btnEliminarTarea=document.getElementById("btnEliminarTarea");
+    btnCloseDelTarea=document.getElementById("btnCloseDelTarea");
     btnEliminarTarea.addEventListener('click', function(){
-        deleteTask(idTask, task.taskId); 
         deleteModal.close();
+        deleteTasks(idTask, plan);
     })
     btnCloseDelTarea.addEventListener('click', function(){
         deleteModal.close();

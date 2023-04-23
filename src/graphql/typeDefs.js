@@ -8,7 +8,7 @@ type Task {
     descripcion: String!,
     color: String!,
     dia: String,
-    completada: Boolean,
+    completada: Boolean!,
     horaI: Int,
     horaF: Int
   }
@@ -44,6 +44,20 @@ input TaskInput {
     horaF: Int
 }
 
+input TaskUpdate { 
+    nombre: String!,
+    descripcion: String!,
+    color: String!,
+    dia: String,
+    completada: Boolean,
+    horaI: Int,
+    horaF: Int
+}
+
+input TaskDiaUpdate { 
+    dia: String!
+}
+
 type Query{    
     Task(taskId: String!): Task!
     getTasks(cardId: String!): [Task]
@@ -59,7 +73,8 @@ type Mutation {
     createTask(taskInput: TaskInput): Task!
     deleteTask(taskId: String!): Boolean
     deleteTasksOfTheWeek(cardId: String!): Int
-    editTask(taskId: String!, taskInput: TaskInput): Boolean
+    editTask(taskId: String!, TaskUpdate: TaskUpdate): Boolean
+    editDayTask(taskId: String!, TaskDiaUpdate: TaskDiaUpdate): Boolean
 }
 `
 
