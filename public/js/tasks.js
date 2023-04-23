@@ -10,7 +10,7 @@
     let  colorT = "";
     let  descripcionT = "";
     let  dia = "";
-    let completada="";
+    let completada=false;
     let horaI=""; 
     let horaF=""
     let plan; //datos de la card
@@ -35,7 +35,7 @@
     }
     
     function clearTasks(){
-      tasks({"taskId":"", "cardId": "", "nombre": "", "descripcion": "", "color": "", "dia": "", "completada": "", "horaI": "", "horaF": ""});
+      tasks({"taskId":"", "cardId": "", "nombre": "", "descripcion": "", "color": "", "dia": "", "completada": false, "horaI": "", "horaF": ""});
     }
     function setTask(idT, idCardTask, nombreT, descripcionT, colorT, dia, completada, horaI, horaF){
       tasks({"taskId":idT, "cardId": idCardTask, "nombre": nombreT, "descripcion": descripcionT, "color": colorT, "dia": dia, "completada": completada, "horaI":  horaI, "horaF":horaF});

@@ -175,6 +175,8 @@ let modColorTarea = document.getElementById("taskcolor");
 let modIdTask = document.getElementById("modIdTask");
 let modHoraI = document.getElementById("modHoraI");
 let modHoraF = document.getElementById("modHoraF");
+let modCompletada = document.getElementById("modCompletada").checked;
+
 
 function verificaDatos(){
 try{
@@ -210,9 +212,9 @@ btnCloseAddTask.addEventListener('click', function(){
 btnAddTask.addEventListener('click', function (){
     // Validacion de campos obligatorios
     if (verificaDatos()) {    
-        let modCompletada="N";
+        let modCompletada="false";
         if (document.getElementById("modCompletada").checked) {
-            modCompletada = 'S';
+            modCompletada = 'true';
         }   
         if (modalAccion.value === "add") {
               newTask(plan.cardId, nomTarea.value,  modTaskdesc.value, modColorTarea.value, modalDia, modCompletada, modHoraI.value, modHoraF.value);
@@ -226,6 +228,7 @@ btnAddTask.addEventListener('click', function (){
         modTaskdesc.value = "";
         modHoraI.value="";
         modHoraF.value="";
+        modCompletada=false;
         modColorTarea.value = DEFAULT_TASK_COLOR; 
         document.getElementById("addTarea").close(); //CIERRA MODAL   
 
@@ -252,8 +255,9 @@ function updateTask(taskJson){
     modalTitle.innerHTML = "Actualizar tarea";
     modalAccion.value = "update";
     modIdTask.value = taskJson.taskId; //guardaremos la idTask para actulizar la tarjetilla de tarea
-    if (taskJson.completada==="S") document.getElementById("completada").checked= true;
-    else document.getElementById("completada").checked= false;
+    console.log(taskJson);
+     if (taskJson.completada === true || taskJson.completada === "true") document.getElementById("modCompletada").checked= true;    
+    else document.getElementById("modCompletada").checked= false;
     document.getElementById("addTarea").showModal(); //Mostrar modal añadir tareas
 }
 

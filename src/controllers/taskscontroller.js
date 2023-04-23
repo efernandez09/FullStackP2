@@ -73,9 +73,9 @@ exports.delCardTasks= async (cardid) => {
 }
   
 
-exports.updTask= async (taskid, nombre, descripcion,  color, dia,  horaI, horaF) => {
+exports.updTask= async (taskid, nombre, descripcion,  color, dia, completada, horaI, horaF) => {
     try{
-        const cardMod = (await Tasks.updateOne({taskId: taskid}, {nombre, descripcion,  color, dia,  horaI, horaF})).modifiedCount;
+        const cardMod = (await Tasks.updateOne({taskId: taskid}, {nombre, descripcion,  color, dia, completada, horaI, horaF})).modifiedCount;
         return (cardMod>0);
     }
     catch(e){

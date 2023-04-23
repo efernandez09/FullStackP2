@@ -67,8 +67,8 @@ module.exports = {
          * @param {*} param1 
          * @returns 
          */
-        async editTask(_, {taskId, TaskUpdate: {nombre, descripcion,  color, dia,  horaI, horaF}}){
-            return Tasks.updTask(taskId, nombre, descripcion,  color, dia,  horaI, horaF);
+        async editTask(_, {taskId, TaskUpdate: {nombre, descripcion,  color, dia,completada,  horaI, horaF}}){
+            return Tasks.updTask(taskId, nombre, descripcion,  color, dia, completada, horaI, horaF);
         },
 
         /**

@@ -2,13 +2,12 @@
   *  Función que igual te crea una task si hay conjunción con Saturno
   */
  function newTask(cardId, nombre,  descripcion, color, dia, completada, horaI, horaF){
-  let completed = (completada === "S");
   let hI = parseInt(horaI);
   let hF = parseInt(horaF);
   const query = JSON.stringify({
     query: `mutation CreateTask {
       createTask(
-          taskInput: {cardId: "${cardId}", nombre: "${nombre}", descripcion: "${descripcion}", color: "${color}", dia: "${dia}", completada: ${completed}, horaI: ${hI}, horaF: ${hF}}
+          taskInput: {cardId: "${cardId}", nombre: "${nombre}", descripcion: "${descripcion}", color: "${color}", dia: "${dia}", completada: ${completada}, horaI: ${hI}, horaF: ${hF}}
       ) {
           taskId
           cardId
@@ -47,7 +46,7 @@
   *  Función que te actualiza la task pero no te la hace
   */
 function editTask(taskId, cardId, nombre,  descripcion, color, dia, completada, horaI, horaF){
-  let completed = (completada === "S");
+
   let hI = parseInt(horaI);
   let hF = parseInt(horaF);
 
@@ -55,11 +54,11 @@ function editTask(taskId, cardId, nombre,  descripcion, color, dia, completada, 
   const query = JSON.stringify({
     query: `mutation editTask {
       editTask(taskId: "${taskId}",
-             TaskUpdate: {nombre: "${nombre}", descripcion: "${descripcion}", color: "${color}", dia: "${dia}", completada: ${completed}, horaI: ${hI}, horaF: ${hF}}
+             TaskUpdate: {nombre: "${nombre}", descripcion: "${descripcion}", color: "${color}", dia: "${dia}", completada: ${completada}, horaI: ${hI}, horaF: ${hF}}
       ) 
   }`
   });
-
+  console.log(query);
   fetch(GRAPHQL_URL, {
       method: 'POST',
       headers: {
