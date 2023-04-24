@@ -3,7 +3,7 @@
  */
 
 
-const GRAPHQL_URL = "http://localhost:3000/graphql"
+const GRAPHQL_URL = "https://erl7p5-3000.csb.app/graphql"
 
 // Paleta de colores
 const DEFAULT_COLOR = "#edede9"; 
