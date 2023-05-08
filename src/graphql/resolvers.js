@@ -1,5 +1,6 @@
 const Cards = require('../controllers/cardscontroller.js');
 const Tasks = require('../controllers/taskscontroller.js');
+const io = require('socket.io');
 
 
 module.exports = {
@@ -34,6 +35,7 @@ module.exports = {
          * @returns 
          */
         async createCards(_, {CardsInput: {semana, nombre, color, descripcion, year, vacaciones}}){
+            // context.io.emit('createCards')
            return Cards.newCard(semana, nombre, color, descripcion, year, vacaciones);
         },
 

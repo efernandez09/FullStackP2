@@ -40,6 +40,9 @@ exports.newCard = async (semana, nombre, color, descripcion, year, vacaciones)=>
         const res = await createdCards.save(); //MongoDb Saving
         //retorna el resultat
         let resj =   {"cardId" : res.cardId, "semana" : res.semana, "nombre" : res.nombre, "color" : res.color, "descripcion" : res.descripcion, "year" : res.year, "vacaciones" : res.vacaciones};
+        // socket.on('createCards', (newCard) => {
+        //     console.log(`Se ha creado una nueva tarjeta: ${res.nombre}`);
+        // });
         return resj;
     }
     catch(e){

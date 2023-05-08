@@ -10,7 +10,7 @@ const DEFAULT_COLOR = "#edede9";
 const DEFAULT_TASK_COLOR = "#eab676"
 const WHT_COLOR = "#FAFAFA";
  
-
+const socket = io();
 
   /**
    * pone el título en el navbar
@@ -42,6 +42,8 @@ const WHT_COLOR = "#FAFAFA";
       modalAddTask();
       modalDeleteTask();
       fetchWeeks();
+      // Inicializamos socket io en la app
+      io();
   }
 
 
